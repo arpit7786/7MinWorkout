@@ -6,4 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ExcerciseActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/ExcerciseActivityToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:theme="@style/ExerciseActivityToolbarTheme"
+        android:background="@color/white"
+        app:titleTextColor="@color/colorAccent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
