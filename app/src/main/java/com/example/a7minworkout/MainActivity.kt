@@ -3,6 +3,7 @@ package com.example.a7minworkout
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.widget.FrameLayout
 import android.widget.Toast
 import com.example.a7minworkout.databinding.ActivityMainBinding
@@ -36,4 +37,5 @@ class MainActivity : AppCompatActivity() {
 
         binding = null
     }
+
 }
