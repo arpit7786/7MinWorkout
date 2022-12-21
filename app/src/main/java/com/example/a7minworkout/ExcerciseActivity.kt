@@ -1,8 +1,11 @@
 package com.example.a7minworkout
 
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.View
+import android.view.View.GONE
 import android.widget.Toast
 import com.example.a7minworkout.databinding.ActivityExcerciseBinding
 
@@ -39,6 +42,7 @@ class ExcerciseActivity : AppCompatActivity() {
             restProgress = 0
         }
 
+        binding?.flProgressBarExerciseTimer?.visibility = View.GONE
         setRestProgressBar()
     }
 
@@ -54,10 +58,39 @@ class ExcerciseActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
+
+                restProgress = 0
+                restTimer?.cancel()
+
+                binding?.flProgressBar?.visibility = View.GONE
+                binding?.flProgressBarExerciseTimer?.visibility = View.VISIBLE
+
+                setExerciseTimer()
+
+            }
+
+        }.start()
+    }
+
+    private fun setExerciseTimer() {
+//        binding?.flProgressBar?.visibility = View.GONE
+
+        binding?.progressBarExerciseTimer?.progress = restProgress
+
+        restTimer = object: CountDownTimer(30000, 1000) {
+            override fun onTick(p0: Long) {
+                restProgress++
+
+                binding?.progressBarExerciseTimer?.progress = (30 - restProgress)
+                binding?.tvExerciseTimer?.text = (30 - restProgress).toString()
+
+            }
+
+            override fun onFinish() {
                 Toast.makeText(
                     this@ExcerciseActivity,
-                "Here Now we'll start the exercise",
-                Toast.LENGTH_SHORT)
+                    "Here Now we'll start new exercise",
+                    Toast.LENGTH_SHORT)
                     .show()
             }
 
