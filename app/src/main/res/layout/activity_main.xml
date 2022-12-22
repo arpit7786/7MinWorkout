@@ -11,11 +11,12 @@
         android:id="@+id/logoImage"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/img_content_desc"
         app:layout_constraintBottom_toTopOf="@+id/flButtonStart"
-        android:contentDescription="@string/img_content_desc" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_main_page" />
 
     <FrameLayout
         android:id="@+id/flButtonStart"

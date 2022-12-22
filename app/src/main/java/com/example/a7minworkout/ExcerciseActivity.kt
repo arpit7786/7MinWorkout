@@ -16,6 +16,9 @@ class ExcerciseActivity : AppCompatActivity() {
     private var restTimer: CountDownTimer? = null
     private var restProgress = 0
 
+    private var exerciseList = ArrayList<ExerciseModel>()
+    private var currentExercise = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityExcerciseBinding.inflate(layoutInflater)
@@ -26,6 +29,8 @@ class ExcerciseActivity : AppCompatActivity() {
         if(supportActionBar != null){
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
+
+        exerciseList = Constants.defaultExerciseList()
 
         binding?.ExcerciseActivityToolbar?.setNavigationOnClickListener {
             onBackPressed()
@@ -48,6 +53,7 @@ class ExcerciseActivity : AppCompatActivity() {
 
     private fun setRestProgressBar() {
         binding?.progressBar?.progress = restProgress
+        binding?.textViewForProgress?.text = "Exercise Started"
 
         restTimer = object: CountDownTimer(10000,1000) {
             override fun onTick(p0: Long) {
@@ -58,6 +64,8 @@ class ExcerciseActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
+
+                currentExercise++
 
                 restProgress = 0
                 restTimer?.cancel()
