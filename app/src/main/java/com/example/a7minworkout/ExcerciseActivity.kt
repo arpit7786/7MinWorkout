@@ -3,16 +3,21 @@ package com.example.a7minworkout
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.view.View
 import android.view.WindowId
 import android.widget.Toast
 import com.example.a7minworkout.databinding.ActivityExcerciseBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
-class ExcerciseActivity : AppCompatActivity() {
+class ExcerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var binding:ActivityExcerciseBinding? = null
 
     private var timer: CountDownTimer? = null
+    private var tts: TextToSpeech? = null
     private var exerciseProgress = 0
 
     private var exerciseList: ArrayList<ExerciseModel>? = null
@@ -34,6 +39,8 @@ class ExcerciseActivity : AppCompatActivity() {
         binding?.ExcerciseActivityToolbar?.setNavigationOnClickListener {
             onBackPressed()
         }
+
+        tts = TextToSpeech(this, this)
 
         setUpRestView()
 
@@ -100,6 +107,8 @@ class ExcerciseActivity : AppCompatActivity() {
         binding?.tvExercise?.visibility = View.VISIBLE
         binding?.tvExercise?.text = exerciseList?.get(currentExercise)?.getName()
 
+        speakOutExerciseName(exerciseList!![currentExercise].getName())
+
         timer = object: CountDownTimer(30000, 1000) {
             override fun onTick(p0: Long) {
                 exerciseProgress++
@@ -133,6 +142,27 @@ class ExcerciseActivity : AppCompatActivity() {
             exerciseProgress = 0
         }
 
+        if(tts != null) {
+            tts?.stop()
+            tts?.shutdown()
+        }
+
         binding = null
+    }
+
+    override fun onInit(status: Int) {
+        if(status == TextToSpeech.SUCCESS){
+            val result = tts?.setLanguage(Locale.US)
+
+            if(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
+                Log.e("TTS", "The language specified is unavailable")
+            }
+        } else {
+            Log.e("TTS", "Initialization Failed")
+        }
+    }
+
+    private fun speakOutExerciseName(name: String) {
+        tts?.speak(name, TextToSpeech.QUEUE_FLUSH, null, "")
     }
 }
