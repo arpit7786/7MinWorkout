@@ -72,8 +72,34 @@
                 tools:text="10"/>
 
         </LinearLayout>
-
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvUpComingExerciseLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upcoming Exercise"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flRestProgressTimer"
+        app:layout_constraintBottom_toTopOf="@id/tvUpcomingExerciseName"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/tvUpcomingExerciseName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUpComingExerciseLabel"
+        app:layout_constraintBottom_toTopOf="@id/tvExercise"
+        tools:visibility="visible"/>
 
     <ImageView
         android:id="@+id/ivExercise"

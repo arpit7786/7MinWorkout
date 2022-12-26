@@ -56,7 +56,10 @@ class ExcerciseActivity : AppCompatActivity() {
 
     private fun setRestProgressBar() {
         binding?.progressBar?.progress = exerciseProgress
-        binding?.textViewForProgress?.text = "Take a Rest!!"
+        binding?.textViewForProgress?.text = "Take a rest!! and Get Ready For"
+        binding?.tvUpComingExerciseLabel?.visibility = View.VISIBLE
+        binding?.tvUpcomingExerciseName?.visibility = View.VISIBLE
+        binding?.tvUpcomingExerciseName?.text = exerciseList!![currentExercise+1].getName()
 
         timer = object: CountDownTimer(10000,1000) {
             override fun onTick(p0: Long) {
@@ -90,6 +93,8 @@ class ExcerciseActivity : AppCompatActivity() {
         binding?.ivExercise?.setImageResource(exerciseList?.get(currentExercise)!!.getImage())
 
         binding?.ivExercise?.visibility = View.VISIBLE
+        binding?.tvUpComingExerciseLabel?.visibility = View.INVISIBLE
+        binding?.tvUpcomingExerciseName?.visibility = View.INVISIBLE
         binding?.progressBarExerciseTimer?.progress = exerciseProgress
 //        currentExercise++
         binding?.tvExercise?.visibility = View.VISIBLE
