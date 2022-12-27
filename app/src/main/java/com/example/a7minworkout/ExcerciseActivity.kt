@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowId
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.a7minworkout.databinding.ActivityExcerciseBinding
 import java.util.*
 import kotlin.collections.ArrayList
@@ -25,6 +26,8 @@ class ExcerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var exerciseList: ArrayList<ExerciseModel>? = null
     private var currentExercise = -1
+
+    private var exerciseAdapter: ExerciseStatusAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +49,15 @@ class ExcerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         tts = TextToSpeech(this, this)
 
         setUpRestView()
+        setUpExerciseStatusRecyclerView()
 
+    }
+
+    private fun setUpExerciseStatusRecyclerView() {
+        binding?.rvExerciseStatus?.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        exerciseAdapter = ExerciseStatusAdapter(exerciseList!!)
+        binding?.rvExerciseStatus?.adapter = exerciseAdapter
     }
 
     private fun setUpRestView() {
