@@ -113,6 +113,9 @@ class ExcerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 binding?.flRestProgressTimer?.visibility = View.GONE
                 binding?.flProgressBarExerciseTimer?.visibility = View.VISIBLE
 
+                exerciseList!![currentExercise].setIsSelected(true)
+                exerciseAdapter?.notifyDataSetChanged()
+
                 setExerciseTimer()
 
             }
@@ -145,8 +148,15 @@ class ExcerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
 
             override fun onFinish() {
+
                 if(currentExercise < exerciseList!!.size-1){
+
+                    exerciseList!![currentExercise].setIsSelected(false)
+                    exerciseList!![currentExercise].setIsCompleted(true)
+                    exerciseAdapter?.notifyDataSetChanged()
+
                     setUpRestView()
+
                 }else{
                     Toast.makeText(
                         this@ExcerciseActivity,
