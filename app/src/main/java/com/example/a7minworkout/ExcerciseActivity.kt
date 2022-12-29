@@ -149,11 +149,11 @@ class ExcerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
             override fun onFinish() {
 
-                if(currentExercise < exerciseList!!.size-1){
+                exerciseList!![currentExercise].setIsSelected(false)
+                exerciseList!![currentExercise].setIsCompleted(true)
+                exerciseAdapter?.notifyDataSetChanged()
 
-                    exerciseList!![currentExercise].setIsSelected(false)
-                    exerciseList!![currentExercise].setIsCompleted(true)
-                    exerciseAdapter?.notifyDataSetChanged()
+                if(currentExercise < exerciseList!!.size-1){
 
                     setUpRestView()
 
