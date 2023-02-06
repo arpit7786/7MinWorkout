@@ -1,5 +1,7 @@
 package com.example.a7minworkout
 
+import android.app.Dialog
+import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +14,7 @@ import android.view.WindowId
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.a7minworkout.databinding.ActivityExcerciseBinding
+import com.example.a7minworkout.databinding.DialogCustomBackConfirmationBinding
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -23,6 +26,9 @@ class ExcerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var tts: TextToSpeech? = null
     private var player: MediaPlayer? = null
     private var exerciseProgress = 0
+
+    private var restTimerDuration: Long = 1
+    private var exerciseTimerDuration: Long = 3
 
     private var exerciseList: ArrayList<ExerciseModel>? = null
     private var currentExercise = -1
@@ -43,7 +49,7 @@ class ExcerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         exerciseList = Constants.defaultExerciseList()
 
         binding?.ExcerciseActivityToolbar?.setNavigationOnClickListener {
-            onBackPressed()
+            customDialogForBackButton()
         }
 
         tts = TextToSpeech(this, this)
@@ -51,6 +57,28 @@ class ExcerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         setUpRestView()
         setUpExerciseStatusRecyclerView()
 
+    }
+
+    override fun onBackPressed() {
+        customDialogForBackButton()
+    }
+
+    private fun customDialogForBackButton() {
+        val customDialog = Dialog(this)
+        val dialogBinding = DialogCustomBackConfirmationBinding.inflate(layoutInflater)
+        customDialog.setContentView(dialogBinding.root)
+        customDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.btnYes.setOnClickListener {
+            this@ExcerciseActivity.finish()
+            customDialog.dismiss()
+        }
+
+        dialogBinding.btnNo.setOnClickListener {
+            customDialog.dismiss()
+        }
+
+        customDialog.show()
     }
 
     private fun setUpExerciseStatusRecyclerView() {
@@ -94,7 +122,7 @@ class ExcerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         binding?.tvUpcomingExerciseName?.visibility = View.VISIBLE
         binding?.tvUpcomingExerciseName?.text = exerciseList!![currentExercise+1].getName()
 
-        timer = object: CountDownTimer(10000,1000) {
+        timer = object: CountDownTimer(restTimerDuration*100,1000) {
             override fun onTick(p0: Long) {
                 exerciseProgress++
 
@@ -138,7 +166,7 @@ class ExcerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         speakOutExerciseName(exerciseList!![currentExercise].getName())
 
-        timer = object: CountDownTimer(30000, 1000) {
+        timer = object: CountDownTimer(exerciseTimerDuration*100, 1000) {
             override fun onTick(p0: Long) {
                 exerciseProgress++
 
@@ -149,20 +177,16 @@ class ExcerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
             override fun onFinish() {
 
-                exerciseList!![currentExercise].setIsSelected(false)
-                exerciseList!![currentExercise].setIsCompleted(true)
-                exerciseAdapter?.notifyDataSetChanged()
-
                 if(currentExercise < exerciseList!!.size-1){
-
+                    exerciseList!![currentExercise].setIsSelected(false)
+                    exerciseList!![currentExercise].setIsCompleted(true)
+                    exerciseAdapter?.notifyDataSetChanged()
                     setUpRestView()
 
                 }else{
-                    Toast.makeText(
-                        this@ExcerciseActivity,
-                        "Congrats! You completed 7 minutes of workout",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    finish()
+                    val intent = Intent(this@ExcerciseActivity, FinishActivity::class.java)
+                    startActivity(intent)
                 }
             }
 
