@@ -3,9 +3,6 @@ package com.example.a7minworkout
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.widget.FrameLayout
-import android.widget.Toast
 import com.example.a7minworkout.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -17,17 +14,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-//        val flStartButton: FrameLayout = findViewById(R.id.flButtonStart)
-
         binding?.flButtonStart?.setOnClickListener {
-//            Toast.makeText(
-//                this@MainActivity,
-//                "Here we'll start the exercise",
-//                Toast.LENGTH_SHORT
-//            ).show()
 
             val intent = Intent(this, ExcerciseActivity::class.java)
             startActivity(intent)
+        }
+
+        binding?.flHistory?.setOnClickListener {
+
+            val intent = Intent(this, HistoryActivity::class.java)
+            startActivity(intent)
+
         }
 
     }
